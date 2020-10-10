@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hackinutu/styles/color.dart';
 
-const form = InputDecoration(
+const deco = InputDecoration(
   hintStyle: TextStyle(color: Colors.cyan),
   enabledBorder: OutlineInputBorder(
     borderRadius: BorderRadius.all(

@@ -15,8 +15,9 @@ dependencies:
   cupertino_icons: ^0.1.3
   firebase_auth:
   firebase_core:
+  cloud_firestore:
   url_launcher:
-  otp_text_field:
+  font_awesome_flutter: ^8.10.0
 
 dev_dependencies:
   flutter_test:
@@ -25,3 +26,4 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
+
