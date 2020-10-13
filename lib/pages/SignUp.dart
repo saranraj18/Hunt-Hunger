@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hackinutu/pages/HomePage.dart';
 import 'package:hackinutu/styles/Button.dart';
 import 'package:hackinutu/styles/color.dart';
 import 'package:hackinutu/styles/text.dart';
@@ -19,7 +20,7 @@ class _SignUpState extends State<SignUp> {
   final auth = FirebaseAuth.instance;
   final store = FirebaseFirestore.instance;
 
-  String name, email, password, confirmPassword;
+  String name, email, password, confirmPassword, mobile, address, pincode;
   bool hidePass = true;
 
   @override
@@ -39,14 +40,14 @@ class _SignUpState extends State<SignUp> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: height * 0.17),
+                  padding: EdgeInsets.only(top: height * 0.15),
                   child: Text(
                     'Sign Up',
                     style: tText,
                   ),
                 ),
                 SizedBox(
-                  height: height * 0.05,
+                  height: height * 0.03,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -170,8 +171,86 @@ class _SignUpState extends State<SignUp> {
                     obscureText: hidePass ? true : false,
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    style: sText,
+                    validator: (value) {
+                      if (value.isEmpty || value.length < 4) {
+                        return 'Username should be atleast 4 characters';
+                      }
+                      return null;
+                    },
+                    keyboardType: TextInputType.phone,
+                    cursorColor: white,
+                    decoration: InputDecoration(
+                      hintText: 'Mobile No.',
+                      hintStyle: sText,
+                      errorStyle: sText,
+                      errorBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: white)),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: pink)),
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: white)),
+                    ),
+                    onChanged: (value) => mobile = value.trim(),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    style: sText,
+                    validator: (value) {
+                      if (value.isEmpty || value.length < 4) {
+                        return 'Username should be atleast 4 characters';
+                      }
+                      return null;
+                    },
+                    maxLines: 2,
+                    cursorColor: white,
+                    decoration: InputDecoration(
+                      hintText: 'Address',
+                      hintStyle: sText,
+                      errorStyle: sText,
+                      errorBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: white)),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: pink)),
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: white)),
+                    ),
+                    textCapitalization: TextCapitalization.words,
+                    onChanged: (value) => address = value.trim(),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    style: sText,
+                    validator: (value) {
+                      if (value.isEmpty || value.length < 4) {
+                        return 'Username should be atleast 4 characters';
+                      }
+                      return null;
+                    },
+                    cursorColor: white,
+                    decoration: InputDecoration(
+                      hintText: 'Pincode',
+                      hintStyle: sText,
+                      errorStyle: sText,
+                      errorBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: white)),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: pink)),
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: white)),
+                    ),
+                    onChanged: (value) => pincode = value.trim(),
+                  ),
+                ),
                 SizedBox(
-                  height: height * 0.05,
+                  height: height * 0.04,
                 ),
                 RoundButton(
                   width: width,
@@ -188,6 +267,9 @@ class _SignUpState extends State<SignUp> {
                             store.collection('users').doc(value.user.uid).set({
                               'name': name,
                               'email': email,
+                              'mobile': mobile,
+                              'address': address,
+                              'pincode': pincode,
                             });
                           });
                         } catch (e) {

@@ -177,7 +177,7 @@ class _LoginState extends State<Login> {
                     'Create a new account?',
                     style: sText,
                   ),
-                  onTap: () => Navigator.pushReplacement(
+                  onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => SignUp(),

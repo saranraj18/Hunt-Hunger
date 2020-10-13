@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hackinutu/pages/DonateSuccess.dart';
+import 'package:hackinutu/pages/Login.dart';
 import 'package:hackinutu/styles/Button.dart';
 import 'package:hackinutu/styles/color.dart';
 import 'package:hackinutu/styles/text.dart';
@@ -33,9 +35,20 @@ class _DonateState extends State<Donate> {
         ..add(
           TextFormField(
             controller: controller,
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the details or remove';
+              }
+              if (!value.contains('-')) {
+                return 'Enter the food item followed by \'-\' and then by quantity';
+              }
+              return null;
+            },
+            style: sText,
             decoration: InputDecoration(
               hintText: 'Items',
               hintStyle: sText,
+              errorStyle: sText,
               errorBorder:
                   UnderlineInputBorder(borderSide: BorderSide(color: white)),
               focusedBorder:
@@ -64,6 +77,8 @@ class _DonateState extends State<Donate> {
     super.dispose();
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -91,9 +106,12 @@ class _DonateState extends State<Donate> {
                         padding: EdgeInsets.all(16),
                         child: Column(
                           children: [
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: list,
+                            Form(
+                              key: _formKey,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: list,
+                              ),
                             ),
                             Align(
                               alignment: Alignment.bottomRight,
@@ -104,6 +122,35 @@ class _DonateState extends State<Donate> {
                                 ),
                                 onPressed: _rem,
                               ),
+                            ),
+                            RoundButton(
+                              width: width,
+                              text: 'Donate',
+                              onPressed: () {
+                                if (_formKey.currentState.validate()) {
+                                  for (var i = 0; i < list.length; i++) {
+                                    var a = control[i].text.split('-');
+                                    print(a[0].trimRight());
+                                    print(a[1].trimLeft());
+                                    _firestore
+                                        .collection('Food List')
+                                        .doc(_auth.currentUser.uid)
+                                        .collection('donations')
+                                        .add({
+                                      a[0].trimRight(): a[1].trimLeft(),
+                                    }).then((value) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => DonSuccess(),
+                                        ),
+                                      );
+                                    }).catchError((e) {
+                                      print(e);
+                                    });
+                                  }
+                                }
+                              },
                             ),
                           ],
                         ),
@@ -152,9 +199,9 @@ class _DonateState extends State<Donate> {
               ),
             ),
             ListTile(
-              title: Text('Item 1'),
+              title: Text('Logout'),
               onTap: () {
-                Navigator.pop(context);
+                _auth.signOut();
               },
             ),
             ListTile(

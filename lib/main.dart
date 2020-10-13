@@ -23,7 +23,6 @@ class Food extends StatelessWidget {
           return Login();
         },
       ),
-      // home: HomeScreen(),
     );
   }
 }
