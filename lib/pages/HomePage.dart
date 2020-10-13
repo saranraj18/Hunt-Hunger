@@ -1,62 +1,134 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hackinutu/pages/Accept.dart';
+import 'package:hackinutu/pages/Donate.dart';
+import 'package:hackinutu/styles/color.dart';
+import 'package:hackinutu/styles/text.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  String userName = 'User';
+
+  Future name() async {
+    String name = await _firestore
+        .collection('users')
+        .doc(_auth.currentUser.uid)
+        .get()
+        .then((value) {
+      return value['name'];
+    });
+    setState(() {
+      userName = name;
+    });
+  }
+
+  @override
+  void initState() {
+    name();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home Page'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.exit_to_app),
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-            },
-          ),
-        ],
-      ),
-      body: Container(
-        padding: EdgeInsets.all(32),
+      backgroundColor: indigo,
+      body: SafeArea(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              "You are Logged in succesfully",
-              style: TextStyle(color: Colors.lightBlue, fontSize: 32),
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: width * 0.1),
+              child: Center(
+                child: Text(
+                  'Welcome...',
+                  style: tText,
+                ),
+              ),
             ),
-            SizedBox(
-              height: 16,
-            ),
-            FutureBuilder(
-              future: FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(FirebaseAuth.instance.currentUser.uid)
-                  .get(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
-                }
-                if (snapshot.hasError) {
-                  print(snapshot.error);
-                }
-                return Text(
-                  snapshot.data.get('name'),
-                  style: TextStyle(
-                    color: Colors.grey,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Donate(
+                          name: userName,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: lightIndigo,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(30),
+                      ),
+                    ),
+                    margin: EdgeInsets.only(
+                      bottom: height * 0.1,
+                      top: height * 0.1,
+                      right: width * 0.01,
+                    ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: width * 0.09,
+                      vertical: height * 0.1,
+                    ),
+                    child: Center(
+                      child: Text(
+                        'DONATE',
+                        style: sText.copyWith(fontSize: 25),
+                      ),
+                    ),
                   ),
-                );
-              },
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Accept(
+                          name: userName,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: lightIndigo,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(30),
+                      ),
+                    ),
+                    margin: EdgeInsets.only(
+                      bottom: height * 0.1,
+                      top: height * 0.1,
+                      left: width * 0.01,
+                    ),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: width * 0.09, vertical: height * 0.1),
+                    child: Center(
+                      child: Text(
+                        'ACCEPT',
+                        style: sText.copyWith(fontSize: 25),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            FlatButton(
-              child: Text('Logout'),
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
-              },
-            )
           ],
         ),
       ),

@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hackinutu/pages/Login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hackinutu/styles/Button.dart';
+import 'package:hackinutu/styles/color.dart';
+import 'package:hackinutu/styles/text.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -17,50 +19,94 @@ class _SignUpState extends State<SignUp> {
   final auth = FirebaseAuth.instance;
   final store = FirebaseFirestore.instance;
 
-  String name, email, password;
+  String name, email, password, confirmPassword;
   bool hidePass = true;
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     return Scaffold(
-      body: Center(
-        child: Container(
-          padding: EdgeInsets.all(20),
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextFormField(
+      backgroundColor: indigo,
+      body: Container(
+        padding: EdgeInsets.all(20),
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: height * 0.17),
+                  child: Text(
+                    'Sign Up',
+                    style: tText,
+                  ),
+                ),
+                SizedBox(
+                  height: height * 0.05,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    style: sText,
                     validator: (value) {
                       if (value.isEmpty || value.length < 4) {
                         return 'Username should be atleast 4 characters';
                       }
                       return null;
                     },
+                    cursorColor: white,
                     decoration: InputDecoration(
                       hintText: 'Name',
+                      hintStyle: sText,
+                      errorStyle: sText,
+                      errorBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: white)),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: pink)),
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: white)),
                     ),
                     textCapitalization: TextCapitalization.words,
                     onChanged: (value) => name = value.trim(),
                   ),
-                  TextFormField(
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
                     validator: (value) {
                       if (value.isEmpty || !value.contains('@')) {
                         return 'Please enter a valid email address';
                       }
                       return null;
                     },
+                    style: sText,
+                    cursorColor: pink,
                     decoration: InputDecoration(
+                      fillColor: white,
                       hintText: 'Email Address',
+                      errorStyle: sText,
+                      hintStyle: sText,
+                      errorBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: white)),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: pink)),
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: white)),
                     ),
                     onChanged: (value) {
                       email = value.trim();
                     },
                   ),
-                  TextFormField(
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    cursorColor: pink,
+                    style: sText,
                     validator: (value) {
                       if (value.isEmpty || value.length < 7) {
                         return 'Password should be atleast 7 characters';
@@ -69,8 +115,45 @@ class _SignUpState extends State<SignUp> {
                     },
                     decoration: InputDecoration(
                       hintText: 'Password',
+                      hintStyle: sText,
+                      errorStyle: sText,
+                      errorBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: white)),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: pink)),
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: white)),
+                    ),
+                    onChanged: (value) {
+                      password = value.trim();
+                    },
+                    obscureText: hidePass ? true : false,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    cursorColor: pink,
+                    style: sText,
+                    validator: (value) {
+                      if (value.isEmpty || value.length < 7) {
+                        return 'Password should be atleast 7 characters';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Confirm Password',
+                      hintStyle: sText,
+                      errorStyle: sText,
+                      errorBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: white)),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: pink)),
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: white)),
                       suffixIcon: IconButton(
                         iconSize: 23,
+                        color: white,
                         icon: hidePass
                             ? FaIcon(FontAwesomeIcons.eye)
                             : FaIcon(FontAwesomeIcons.eyeSlash),
@@ -82,17 +165,20 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ),
                     onChanged: (value) {
-                      password = value.trim();
+                      confirmPassword = value.trim();
                     },
                     obscureText: hidePass ? true : false,
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  RaisedButton(
-                    child: Text('SignUp'),
-                    onPressed: () {
-                      FocusScope.of(context).unfocus();
+                ),
+                SizedBox(
+                  height: height * 0.05,
+                ),
+                RoundButton(
+                  width: width,
+                  text: 'SignUp',
+                  onPressed: () {
+                    FocusScope.of(context).unfocus();
+                    if (password == confirmPassword) {
                       if (_formKey.currentState.validate()) {
                         try {
                           auth
@@ -108,19 +194,12 @@ class _SignUpState extends State<SignUp> {
                           print(e);
                         }
                       }
-                    },
-                  ),
-                  InkWell(
-                    child: Text('I already have an account'),
-                    onTap: () => Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Login(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                    } else {
+                      print('Password doesn\'t match');
+                    }
+                  },
+                ),
+              ],
             ),
           ),
         ),
