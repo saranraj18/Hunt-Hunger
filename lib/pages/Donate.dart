@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hackinutu/pages/DonateSuccess.dart';
-import 'package:hackinutu/pages/Login.dart';
 import 'package:hackinutu/styles/Button.dart';
 import 'package:hackinutu/styles/color.dart';
 import 'package:hackinutu/styles/text.dart';
+import 'package:hackinutu/services/global.dart' as global;
 
 class Donate extends StatefulWidget {
   Donate({
@@ -71,6 +71,36 @@ class _DonateState extends State<Donate> {
     });
   }
 
+  Future _donate(List donList, List cont) async {
+    var docName = Timestamp.now().seconds.toString();
+    for (var i = 0; i < donList.length; i++) {
+      var a = cont[i].text.split('-');
+      if (i == 0) {
+        await _firestore
+            .collection('Food List')
+            .doc(global.pincode)
+            .collection('donations')
+            .doc(docName)
+            .set({
+          a[0].trimRight(): a[1].trimLeft(),
+        }).catchError((e) {
+          print(e);
+        });
+      } else {
+        await _firestore
+            .collection('Food List')
+            .doc(global.pincode)
+            .collection('donations')
+            .doc(docName)
+            .update({
+          a[0].trimRight(): a[1].trimLeft(),
+        }).catchError((e) {
+          print(e);
+        });
+      }
+    }
+  }
+
   @override
   void dispose() {
     control.clear();
@@ -128,27 +158,15 @@ class _DonateState extends State<Donate> {
                               text: 'Donate',
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
-                                  for (var i = 0; i < list.length; i++) {
-                                    var a = control[i].text.split('-');
-                                    print(a[0].trimRight());
-                                    print(a[1].trimLeft());
-                                    _firestore
-                                        .collection('Food List')
-                                        .doc(_auth.currentUser.uid)
-                                        .collection('donations')
-                                        .add({
-                                      a[0].trimRight(): a[1].trimLeft(),
-                                    }).then((value) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => DonSuccess(),
-                                        ),
-                                      );
-                                    }).catchError((e) {
-                                      print(e);
-                                    });
-                                  }
+                                  _donate(list, control).whenComplete(() {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext ctx) =>
+                                            DonSuccess(),
+                                      ),
+                                    );
+                                  });
                                 }
                               },
                             ),

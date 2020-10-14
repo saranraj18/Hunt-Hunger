@@ -128,7 +128,7 @@ class _SignUpState extends State<SignUp> {
                     onChanged: (value) {
                       password = value.trim();
                     },
-                    obscureText: hidePass ? true : false,
+                    obscureText: true,
                   ),
                 ),
                 Padding(

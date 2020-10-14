@@ -5,6 +5,7 @@ import 'package:hackinutu/pages/Accept.dart';
 import 'package:hackinutu/pages/Donate.dart';
 import 'package:hackinutu/styles/color.dart';
 import 'package:hackinutu/styles/text.dart';
+import 'package:hackinutu/services/global.dart' as global;
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -17,12 +18,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   String userName = 'User';
 
-  Future name() async {
+  Future userDetails() async {
     String name = await _firestore
         .collection('users')
         .doc(_auth.currentUser.uid)
         .get()
         .then((value) {
+      global.name = value['name'];
+      global.address = value['address'];
+      global.mobile = value['mobile'];
+      global.pincode = value['pincode'];
       return value['name'];
     });
     setState(() {
@@ -32,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    name();
+    userDetails();
     super.initState();
   }
 

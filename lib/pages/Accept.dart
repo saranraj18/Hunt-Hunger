@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hackinutu/services/global.dart' as global;
+import 'package:hackinutu/styles/Button.dart';
 import 'package:hackinutu/styles/color.dart';
 import 'package:hackinutu/styles/text.dart';
 
@@ -9,47 +12,47 @@ class Accept extends StatefulWidget {
   }) : super(key: key);
 
   final String name;
+
   @override
   _AcceptState createState() => _AcceptState();
 }
 
 class _AcceptState extends State<Accept> {
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future _donGet() async {
+    _firestore.collection('Food List').get().then((value) {
+      // if
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: indigo,
-      appBar: AppBar(
-        elevation: 0,
         backgroundColor: indigo,
-        automaticallyImplyLeading: false,
-        title: Text('Hello ${widget.name}'),
-      ),
-      body: FutureBuilder(
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(
-                backgroundColor: pink,
-              ),
-            );
-          }
-          if (snapshot.hasError) {
-            print(snapshot.error);
-          }
-          if (snapshot.data.documents.length == 0) {
-            return Center(
-              child: Text(
-                'Sorry, there are no donations as of now for this location',
-                style: sText,
-              ),
-            );
-          }
-          return Container();
-        },
-      ),
-    );
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: indigo,
+          automaticallyImplyLeading: false,
+          title: Text('Hello ${widget.name}'),
+        ),
+        body: Center(
+          child: RoundButton(
+            width: width,
+            text: 'Test',
+            onPressed: () async {
+              await _firestore
+                  .collection('Food List')
+                  .where(FieldPath.documentId, isEqualTo: '603111')
+                  .get()
+                  .then((value) {
+                // print(value.docs[index].get());
+              });
+            },
+          ),
+        ));
   }
 }

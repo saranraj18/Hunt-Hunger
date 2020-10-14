@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hackinutu/pages/Donate.dart';
 import 'package:hackinutu/styles/color.dart';
 import 'package:hackinutu/styles/text.dart';
+import 'package:hackinutu/services/global.dart' as global;
 
 class DonSuccess extends StatefulWidget {
   @override
@@ -29,7 +30,7 @@ class _DonSuccessState extends State<DonSuccess> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => Donate(
-                    name: 'Saran',
+                    name: global.name,
                   ),
                 ),
               ),
