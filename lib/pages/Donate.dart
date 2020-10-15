@@ -8,13 +8,6 @@ import 'package:hackinutu/styles/text.dart';
 import 'package:hackinutu/services/global.dart' as global;
 
 class Donate extends StatefulWidget {
-  Donate({
-    @required this.name,
-    Key key,
-  }) : super(key: key);
-
-  final String name;
-
   @override
   _DonateState createState() => _DonateState();
 }
@@ -84,7 +77,7 @@ class _DonateState extends State<Donate> {
     }
 
     DateTime date = DateTime.now();
-    String ref = date.millisecond.toString();
+    String ref = date.millisecondsSinceEpoch.toString();
 
     await _firestore
         .collection('Food List')
@@ -133,11 +126,6 @@ class _DonateState extends State<Donate> {
 
     return Scaffold(
       backgroundColor: indigo,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: indigo,
-        title: Text('Hello ${widget.name}'),
-      ),
       body: Center(
         child: SingleChildScrollView(
           child: Column(

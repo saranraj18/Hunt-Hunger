@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hackinutu/pages/Accept.dart';
+import 'package:hackinutu/pages/BefDonate.dart';
 import 'package:hackinutu/pages/Donate.dart';
 import 'package:hackinutu/styles/color.dart';
 import 'package:hackinutu/styles/text.dart';
@@ -33,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
         var diff = DateTime.now().difference(time).inMinutes;
         if (diff >= 180) {
           id = ds.get('uid');
-          docu = ds.get('Time').toString();
+          docu = ds.get('ref');
           print('Deleted ${ds.reference.id}');
           ds.reference.delete();
         }
@@ -102,10 +103,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Donate(
-                          name: userName,
-                        ),
-                      ),
+                          builder: (context) => Don(
+                                name: userName,
+                              )),
                     );
                   },
                   child: Container(

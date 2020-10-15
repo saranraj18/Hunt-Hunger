@@ -29,9 +29,7 @@ class _DonSuccessState extends State<DonSuccess> {
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Donate(
-                    name: global.name,
-                  ),
+                  builder: (context) => Donate(),
                 ),
               ),
               child: Text(
