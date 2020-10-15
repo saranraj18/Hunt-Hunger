@@ -19,6 +19,7 @@ dependencies:
   url_launcher:
   font_awesome_flutter: ^8.10.0
   bubble_tab_indicator: ^0.1.4
+  geolocator: ^6.0.0+4
 
 dev_dependencies:
   flutter_test:
@@ -35,3 +36,5 @@ flutter:
       
   assets:
     - images/logo.png
+    - images/donation.jpeg
+    - images/home.jpeg

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hackinutu/pages/Accept.dart';
 import 'package:hackinutu/pages/BefDonate.dart';
 import 'package:hackinutu/pages/Donate.dart';
@@ -82,94 +83,165 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       backgroundColor: indigo,
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: width * 0.1),
-              child: Center(
-                child: Text(
-                  'Welcome...',
-                  style: tText,
+      appBar: AppBar(
+        backgroundColor: indigo,
+        elevation: 0,
+        toolbarHeight: 50,
+        actions: [
+          DropdownButtonHideUnderline(
+            child: DropdownButton(
+              dropdownColor: pink,
+              icon: Icon(
+                Icons.more_vert,
+                color: white,
+              ),
+              items: [
+                DropdownMenuItem(
+                  child: Container(
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.edit,
+                          color: white,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          'Edit',
+                          style: sText,
+                        ),
+                      ],
+                    ),
+                  ),
+                  value: 'edit',
                 ),
+                DropdownMenuItem(
+                  child: Container(
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.exit_to_app,
+                          color: white,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          'Logout',
+                          style: sText,
+                        ),
+                      ],
+                    ),
+                  ),
+                  value: 'logout',
+                ),
+              ],
+              onChanged: (value) {
+                if (value == 'logout') {
+                  FirebaseAuth.instance.signOut();
+                }
+              },
+            ),
+          )
+        ],
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: width * 0.06),
+            child: Center(
+              child: Text(
+                'Welcome...',
+                style: tText,
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Don(
-                          name: userName,
-                        ),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: lightIndigo,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(30),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Don(
+                        name: userName,
                       ),
                     ),
-                    margin: EdgeInsets.only(
-                      bottom: height * 0.1,
-                      top: height * 0.1,
-                      right: width * 0.01,
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: lightIndigo,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(30),
                     ),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: width * 0.09,
-                      vertical: height * 0.1,
-                    ),
-                    child: Center(
-                      child: Text(
+                  ),
+                  margin: EdgeInsets.only(
+                    bottom: height * 0.1,
+                    top: height * 0.1,
+                    right: width * 0.01,
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: width * 0.09,
+                    vertical: height * 0.1,
+                  ),
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.fastfood,
+                        color: white,
+                        size: 75,
+                      ),
+                      Text(
                         'DONATE',
                         style: sText.copyWith(fontSize: 25),
                       ),
-                    ),
+                    ],
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Accept(
-                          name: userName,
-                        ),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: lightIndigo,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(30),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Accept(
+                        name: userName,
                       ),
                     ),
-                    margin: EdgeInsets.only(
-                      bottom: height * 0.1,
-                      top: height * 0.1,
-                      left: width * 0.01,
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: lightIndigo,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(30),
                     ),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: width * 0.09, vertical: height * 0.1),
-                    child: Center(
-                      child: Text(
+                  ),
+                  margin: EdgeInsets.only(
+                    bottom: height * 0.1,
+                    top: height * 0.1,
+                    left: width * 0.01,
+                  ),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: width * 0.09, vertical: height * 0.1),
+                  child: Column(
+                    children: [
+                      FaIcon(
+                        FontAwesomeIcons.utensils,
+                        color: white,
+                        size: 70,
+                      ),
+                      Text(
                         'ACCEPT',
                         style: sText.copyWith(fontSize: 25),
                       ),
-                    ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hackinutu/styles/color.dart';
 import 'package:hackinutu/styles/text.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RecentsDon extends StatefulWidget {
   @override
@@ -62,11 +63,13 @@ class _RecentsDonState extends State<RecentsDon> {
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: height * 0.005),
-                                child:
-                                    Text(_doc[index]['mobile'], style: sText),
+                              GestureDetector(
+                                child: Text(
+                                  _doc[index]['mobile'],
+                                  style: sText,
+                                ),
+                                onTap: () =>
+                                    launch("tel:${_doc[index]['mobile']}"),
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(

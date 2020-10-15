@@ -198,7 +198,17 @@ class _DonateState extends State<Donate> {
                         ),
                       ),
                     )
-                  : Container(),
+                  : Center(
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: height * 0.01),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.1, vertical: height * 0.001),
+                        child: Image.asset(
+                          'images/donation.jpeg',
+                          alignment: Alignment.topCenter,
+                        ),
+                      ),
+                    ),
               Container(
                 child: Center(
                   child: Row(
@@ -228,31 +238,6 @@ class _DonateState extends State<Donate> {
               ),
             ],
           ),
-        ),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              child: Text('Drawer Header'),
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-            ),
-            ListTile(
-              title: Text('Logout'),
-              onTap: () {
-                _auth.signOut();
-              },
-            ),
-            ListTile(
-              title: Text('Item 2'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
         ),
       ),
     );

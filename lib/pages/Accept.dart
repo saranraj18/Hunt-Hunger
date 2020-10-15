@@ -4,6 +4,7 @@ import 'package:hackinutu/pages/AcceptNext.dart';
 import 'package:hackinutu/services/global.dart' as global;
 import 'package:hackinutu/styles/color.dart';
 import 'package:hackinutu/styles/text.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Accept extends StatefulWidget {
   Accept({
@@ -75,7 +76,6 @@ class _AcceptState extends State<Accept> {
                         elevation: 5,
                         color: lightIndigo,
                         child: ListTile(
-                          onTap: () {},
                           title: Padding(
                             padding:
                                 EdgeInsets.symmetric(vertical: height * 0.005),
@@ -88,13 +88,13 @@ class _AcceptState extends State<Accept> {
                             mainAxisSize: MainAxisSize.max,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: height * 0.005),
+                              GestureDetector(
                                 child: Text(
                                   documents[index]['mobile'],
                                   style: sText,
                                 ),
+                                onTap: () =>
+                                    launch("tel:${documents[index]['mobile']}"),
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(
