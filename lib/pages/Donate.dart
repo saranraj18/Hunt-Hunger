@@ -83,6 +83,9 @@ class _DonateState extends State<Donate> {
       q[a[0].trimRight()] = a[1].trimLeft();
     }
 
+    DateTime date = DateTime.now();
+    String ref = date.millisecond.toString();
+
     await _firestore
         .collection('Food List')
         .doc(global.pincode)
@@ -90,12 +93,28 @@ class _DonateState extends State<Donate> {
         .doc()
         .set({
       'Item': q,
-      'Time': DateTime.now(),
+      'Time': date,
       'name': global.name,
       'address': global.address,
       'pincode': global.pincode,
       'mobile': global.mobile,
       'people': suff,
+      'uid': _auth.currentUser.uid,
+      'ref': ref,
+    }).catchError((e) {
+      print(e);
+    });
+    print(ref);
+    await _firestore
+        .collection('Donation')
+        .doc(_auth.currentUser.uid)
+        .collection('List')
+        .doc(ref)
+        .set({
+      'Item': q,
+      'Time': date,
+      'uid': _auth.currentUser.uid,
+      'status': 'Waiting',
     }).catchError((e) {
       print(e);
     });

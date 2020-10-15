@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:hackinutu/pages/AccSuccess.dart';
 import 'package:hackinutu/styles/Button.dart';
 import 'package:hackinutu/styles/color.dart';
 import 'package:hackinutu/styles/text.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:hackinutu/services/global.dart' as global;
 
 class AccNext extends StatefulWidget {
   AccNext({
@@ -12,6 +16,9 @@ class AccNext extends StatefulWidget {
     this.name,
     this.pincode,
     this.time,
+    this.id,
+    this.uid,
+    this.docu,
     Key key,
   }) : super(key: key);
 
@@ -21,6 +28,9 @@ class AccNext extends StatefulWidget {
   final String pincode;
   final Map map;
   final DateTime time;
+  final String id;
+  final String uid;
+  final String docu;
 
   @override
   _AccNextState createState() => _AccNextState();
@@ -85,6 +95,33 @@ class _AccNextState extends State<AccNext> {
                       child: RoundButton(
                         width: width,
                         text: 'Accept',
+                        onPressed: () async {
+                          await FirebaseFirestore.instance
+                              .collection('Donation')
+                              .doc(widget.uid)
+                              .collection('List')
+                              .doc(widget.docu)
+                              .update({'status': 'Accepted'}).catchError((e) {
+                            print(e);
+                            print(widget.docu);
+                          });
+
+                          await FirebaseFirestore.instance
+                              .collection('Food List')
+                              .doc(global.pincode)
+                              .collection('Donations')
+                              .doc(widget.id)
+                              .delete()
+                              .then((value) {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => AccSuccess(
+                                  map: widget.map,
+                                ),
+                              ),
+                            );
+                          });
+                        },
                       ),
                     )
                   : Container(),

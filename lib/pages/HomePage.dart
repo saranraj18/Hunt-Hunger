@@ -19,6 +19,9 @@ class _HomeScreenState extends State<HomeScreen> {
   String userName = 'User';
 
   Future _validCheck() async {
+    var id;
+    var docu;
+
     await _firestore
         .collection('Food List')
         .doc(global.pincode)
@@ -29,11 +32,20 @@ class _HomeScreenState extends State<HomeScreen> {
         var time = ds.get('Time').toDate();
         var diff = DateTime.now().difference(time).inMinutes;
         if (diff >= 180) {
+          id = ds.get('uid');
+          docu = ds.get('Time').toString();
           print('Deleted ${ds.reference.id}');
           ds.reference.delete();
         }
       }
     });
+
+    await _firestore
+        .collection('Donation')
+        .doc(id)
+        .collection('List')
+        .doc(docu)
+        .update({'status': 'Deleted'});
 
     await Future.delayed(Duration(seconds: 2));
   }

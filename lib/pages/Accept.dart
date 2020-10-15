@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hackinutu/pages/AcceptNext.dart';
 import 'package:hackinutu/services/global.dart' as global;
-import 'package:hackinutu/styles/Button.dart';
 import 'package:hackinutu/styles/color.dart';
 import 'package:hackinutu/styles/text.dart';
 
@@ -21,7 +20,7 @@ class Accept extends StatefulWidget {
 class _AcceptState extends State<Accept> {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  bool there = false;
+  bool there = true;
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +103,15 @@ class _AcceptState extends State<Accept> {
                                   documents[index]['address'],
                                   style: sText,
                                 ),
-                              )
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: height * 0.005),
+                                child: Text(
+                                  'No. of persons(Approx.) : ${documents[index]['people'].toString()}',
+                                  style: sText,
+                                ),
+                              ),
                             ],
                           ),
                           trailing: IconButton(
@@ -113,16 +120,21 @@ class _AcceptState extends State<Accept> {
                                 color: white,
                               ),
                               onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
                                     builder: (context) => AccNext(
-                                          address: documents[index]['address'],
-                                          map: documents[index]['Item'],
-                                          mobile: documents[index]['mobile'],
-                                          name: documents[index]['name'],
-                                          pincode: documents[index]['pincode'],
-                                          time:
-                                              documents[index]['Time'].toDate(),
-                                        )));
+                                      address: documents[index]['address'],
+                                      map: documents[index]['Item'],
+                                      mobile: documents[index]['mobile'],
+                                      name: documents[index]['name'],
+                                      pincode: documents[index]['pincode'],
+                                      id: documents[index].reference.id,
+                                      time: documents[index]['Time'].toDate(),
+                                      uid: documents[index]['uid'],
+                                      docu: documents[index]['ref'],
+                                    ),
+                                  ),
+                                );
                               }),
                         ),
                       ),
