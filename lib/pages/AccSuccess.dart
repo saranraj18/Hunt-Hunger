@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:hackinutu/pages/Accept.dart';
 import 'package:hackinutu/pages/HomePage.dart';
@@ -31,11 +33,21 @@ class _AccSuccessState extends State<AccSuccess> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Flexible(
-                flex: 1,
+                flex: 3,
                 child: Center(
-                  child: Text(
-                    'You\'ve successfully accepted the food',
-                    style: sText,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'You\'ve successfully accepted the food',
+                        style: sText,
+                      ),
+                      Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                        size: height * 0.1,
+                      ),
+                    ],
                   ),
                 ),
               ),

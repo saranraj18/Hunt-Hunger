@@ -103,9 +103,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Don(
-                                name: userName,
-                              )),
+                        builder: (context) => Don(
+                          name: userName,
+                        ),
+                      ),
                     );
                   },
                   child: Container(

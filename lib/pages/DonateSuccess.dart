@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hackinutu/pages/Donate.dart';
+import 'package:hackinutu/pages/BefDonate.dart';
 import 'package:hackinutu/styles/color.dart';
 import 'package:hackinutu/styles/text.dart';
 import 'package:hackinutu/services/global.dart' as global;
@@ -25,15 +25,22 @@ class _DonSuccessState extends State<DonSuccess> {
               'You\'ve successfully donated...',
               style: sText,
             ),
+            Icon(
+              Icons.check_circle,
+              color: Colors.green,
+              size: height * 0.3,
+            ),
             FlatButton(
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Donate(),
+                  builder: (context) => Don(
+                    name: global.name,
+                  ),
                 ),
               ),
               child: Text(
-                'Back to Navigation',
+                'Back to Donate',
                 style: sText,
               ),
             ),

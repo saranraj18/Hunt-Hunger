@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hackinutu/pages/Donate.dart';
+import 'package:hackinutu/pages/RecentsDonate.dart';
 import 'package:hackinutu/styles/color.dart';
 
 class Don extends StatefulWidget {
@@ -66,7 +67,7 @@ class _DonState extends State<Don> with SingleTickerProviderStateMixin {
       body: TabBarView(
         children: [
           Donate(),
-          Text('Hellooo'),
+          RecentsDon(),
         ],
         controller: _tabController,
       ),
