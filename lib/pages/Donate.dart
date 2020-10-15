@@ -27,6 +27,10 @@ class _DonateState extends State<Donate> {
   List<TextEditingController> control = [];
   int count = 0;
 
+  int suff;
+
+  final _formKey = GlobalKey<FormState>();
+
   _add() {
     final TextEditingController controller = TextEditingController();
     control.add(controller);
@@ -72,33 +76,29 @@ class _DonateState extends State<Donate> {
   }
 
   Future _donate(List donList, List cont) async {
-    var docName = Timestamp.now().seconds.toString();
+    Map q = {};
+
     for (var i = 0; i < donList.length; i++) {
       var a = cont[i].text.split('-');
-      if (i == 0) {
-        await _firestore
-            .collection('Food List')
-            .doc(global.pincode)
-            .collection('donations')
-            .doc(docName)
-            .set({
-          a[0].trimRight(): a[1].trimLeft(),
-        }).catchError((e) {
-          print(e);
-        });
-      } else {
-        await _firestore
-            .collection('Food List')
-            .doc(global.pincode)
-            .collection('donations')
-            .doc(docName)
-            .update({
-          a[0].trimRight(): a[1].trimLeft(),
-        }).catchError((e) {
-          print(e);
-        });
-      }
+      q[a[0].trimRight()] = a[1].trimLeft();
     }
+
+    await _firestore
+        .collection('Food List')
+        .doc(global.pincode)
+        .collection('Donations')
+        .doc()
+        .set({
+      'Item': q,
+      'Time': DateTime.now(),
+      'name': global.name,
+      'address': global.address,
+      'pincode': global.pincode,
+      'mobile': global.mobile,
+      'people': suff,
+    }).catchError((e) {
+      print(e);
+    });
   }
 
   @override
@@ -106,8 +106,6 @@ class _DonateState extends State<Donate> {
     control.clear();
     super.dispose();
   }
-
-  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -152,6 +150,25 @@ class _DonateState extends State<Donate> {
                                 ),
                                 onPressed: _rem,
                               ),
+                            ),
+                            TextFormField(
+                              onChanged: (value) => suff = int.parse(value),
+                              style: sText,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                hintText: 'No. of people',
+                                hintStyle: sText,
+                                errorStyle: sText,
+                                errorBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: white)),
+                                focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: white)),
+                                enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: white)),
+                              ),
+                            ),
+                            SizedBox(
+                              height: height * 0.009,
                             ),
                             RoundButton(
                               width: width,

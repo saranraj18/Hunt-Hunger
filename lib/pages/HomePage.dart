@@ -18,6 +18,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
   String userName = 'User';
 
+  Future _validCheck() async {
+    await _firestore
+        .collection('Food List')
+        .doc(global.pincode)
+        .collection('Donations')
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        var time = ds.get('Time').toDate();
+        var diff = DateTime.now().difference(time).inMinutes;
+        if (diff >= 180) {
+          print('Deleted ${ds.reference.id}');
+          ds.reference.delete();
+        }
+      }
+    });
+
+    await Future.delayed(Duration(seconds: 2));
+  }
+
   Future userDetails() async {
     String name = await _firestore
         .collection('users')
@@ -38,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     userDetails();
+    _validCheck();
     super.initState();
   }
 
