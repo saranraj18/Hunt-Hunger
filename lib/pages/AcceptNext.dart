@@ -110,6 +110,21 @@ class _AccNextState extends State<AccNext> {
                             print(widget.docu);
                           });
 
+                          String lead = await FirebaseFirestore.instance
+                              .collection('LeaderBoard')
+                              .doc(widget.uid)
+                              .get()
+                              .then((value) {
+                            return value['count'].toString();
+                          });
+
+                          int c = int.parse(lead);
+
+                          await FirebaseFirestore.instance
+                              .collection('LeaderBoard')
+                              .doc(widget.uid)
+                              .update({'count': (c + 1)});
+
                           await FirebaseFirestore.instance
                               .collection('Food List')
                               .doc(global.pincode)

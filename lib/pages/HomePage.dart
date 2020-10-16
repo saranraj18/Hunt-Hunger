@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hackinutu/pages/Accept.dart';
 import 'package:hackinutu/pages/BefDonate.dart';
 import 'package:hackinutu/pages/Donate.dart';
+import 'package:hackinutu/pages/LeaderBoard.dart';
 import 'package:hackinutu/styles/color.dart';
 import 'package:hackinutu/styles/text.dart';
 import 'package:hackinutu/services/global.dart' as global;
@@ -264,7 +265,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: sText.copyWith(fontSize: 20),
                     ),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LBoard(),
+                      ),
+                    );
+                  },
                 ),
               ),
               SizedBox(

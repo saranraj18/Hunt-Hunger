@@ -270,6 +270,13 @@ class _SignUpState extends State<SignUp> {
                               'mobile': mobile,
                               'address': address,
                               'pincode': pincode,
+                            }).then((value) {
+                              store
+                                  .collection('LeaderBoard')
+                                  .doc(auth.currentUser.uid)
+                                  .set({
+                                'count': 1,
+                              });
                             });
                           });
                         } catch (e) {

@@ -31,7 +31,7 @@ class _DonSuccessState extends State<DonSuccess> {
               size: height * 0.3,
             ),
             FlatButton(
-              onPressed: () => Navigator.push(
+              onPressed: () => Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) => Don(

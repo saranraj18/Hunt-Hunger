@@ -98,6 +98,7 @@ class _DonateState extends State<Donate> {
       print(e);
     });
     print(ref);
+
     await _firestore
         .collection('Donation')
         .doc(_auth.currentUser.uid)
