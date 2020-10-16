@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hackinutu/pages/AcceptNext.dart';
 import 'package:hackinutu/services/global.dart' as global;
 import 'package:hackinutu/styles/color.dart';
@@ -96,13 +97,33 @@ class _AcceptState extends State<Accept> {
                                 onTap: () =>
                                     launch("tel:${documents[index]['mobile']}"),
                               ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: height * 0.005),
-                                child: Text(
-                                  documents[index]['address'],
-                                  style: sText,
-                                ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 9,
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: height * 0.005),
+                                      child: Text(
+                                        documents[index]['address'],
+                                        style: sText,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: IconButton(
+                                        icon: FaIcon(
+                                          FontAwesomeIcons.mapMarkerAlt,
+                                          color: pink,
+                                        ),
+                                        onPressed: () async {
+                                          await mapLaunch(
+                                              documents[index]['address'],
+                                              documents[index]['pincode']);
+                                        }),
+                                  )
+                                ],
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(
@@ -147,5 +168,20 @@ class _AcceptState extends State<Accept> {
               child: Text('Sorry'),
             ),
     );
+  }
+
+  Future mapLaunch(String addr, String pinc) async {
+    String homeLat = "37.3230";
+    String homeLng = "-122.0312";
+    final String url =
+        "https://www.google.com/maps/search/?api=1&query=$addr,$pinc";
+    ;
+    final String encodedURI = Uri.encodeFull(url);
+    if (await canLaunch(encodedURI)) {
+      await launch(encodedURI);
+      print(addr);
+    } else {
+      print('Error launching Google Map');
+    }
   }
 }

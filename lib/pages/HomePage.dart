@@ -87,60 +87,6 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: indigo,
         elevation: 0,
         toolbarHeight: 50,
-        actions: [
-          DropdownButtonHideUnderline(
-            child: DropdownButton(
-              dropdownColor: pink,
-              icon: Icon(
-                Icons.more_vert,
-                color: white,
-              ),
-              items: [
-                DropdownMenuItem(
-                  child: Container(
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.edit,
-                          color: white,
-                        ),
-                        SizedBox(width: 8),
-                        Text(
-                          'Edit',
-                          style: sText,
-                        ),
-                      ],
-                    ),
-                  ),
-                  value: 'edit',
-                ),
-                DropdownMenuItem(
-                  child: Container(
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.exit_to_app,
-                          color: white,
-                        ),
-                        SizedBox(width: 8),
-                        Text(
-                          'Logout',
-                          style: sText,
-                        ),
-                      ],
-                    ),
-                  ),
-                  value: 'logout',
-                ),
-              ],
-              onChanged: (value) {
-                if (value == 'logout') {
-                  FirebaseAuth.instance.signOut();
-                }
-              },
-            ),
-          )
-        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -242,6 +188,128 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ],
+      ),
+      drawer: Drawer(
+        child: Container(
+          color: lightIndigo,
+          child: ListView(
+            children: [
+              Container(
+                height: height * 0.13,
+                child: DrawerHeader(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      CircleAvatar(
+                          radius: 30,
+                          child: Image(
+                            image: AssetImage('images/avatar.jpeg'),
+                            fit: BoxFit.scaleDown,
+                          )),
+                      SizedBox(
+                        width: width * 0.03,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              userName,
+                              style: sText.copyWith(fontSize: 20),
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              _auth.currentUser.email,
+                              style: sText,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                      color: pink, borderRadius: BorderRadius.circular(20)),
+                ),
+              ),
+              Container(
+                height: height * 0.05,
+                decoration: BoxDecoration(
+                  color: indigo,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: GestureDetector(
+                  child: Center(
+                    child: Text(
+                      'Profile',
+                      style: sText.copyWith(fontSize: 20),
+                    ),
+                  ),
+                  onTap: () {},
+                ),
+              ),
+              SizedBox(
+                height: height * 0.02,
+              ),
+              Container(
+                height: height * 0.05,
+                decoration: BoxDecoration(
+                  color: indigo,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: GestureDetector(
+                  child: Center(
+                    child: Text(
+                      'LeaderBoard',
+                      style: sText.copyWith(fontSize: 20),
+                    ),
+                  ),
+                  onTap: () {},
+                ),
+              ),
+              SizedBox(
+                height: height * 0.02,
+              ),
+              Container(
+                height: height * 0.05,
+                decoration: BoxDecoration(
+                  color: indigo,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: GestureDetector(
+                  child: Center(
+                    child: Text(
+                      'Settings',
+                      style: sText.copyWith(fontSize: 20),
+                    ),
+                  ),
+                  onTap: () {},
+                ),
+              ),
+              SizedBox(
+                height: height * 0.02,
+              ),
+              Container(
+                height: height * 0.05,
+                decoration: BoxDecoration(
+                  color: indigo,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: GestureDetector(
+                  child: Center(
+                    child: Text(
+                      'Logout',
+                      style: sText.copyWith(fontSize: 20),
+                    ),
+                  ),
+                  onTap: () {
+                    _auth.signOut();
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
