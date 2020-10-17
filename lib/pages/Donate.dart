@@ -178,6 +178,24 @@ class _DonateState extends State<Donate> {
                             SizedBox(
                               height: height * 0.009,
                             ),
+                            TextFormField(
+                              style: sText,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                hintText: 'Expiry Time(in hrs)',
+                                hintStyle: sText,
+                                errorStyle: sText,
+                                errorBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: white)),
+                                focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: white)),
+                                enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: white)),
+                              ),
+                            ),
+                            SizedBox(
+                              height: height * 0.009,
+                            ),
                             RoundButton(
                               width: width,
                               text: 'Donate',

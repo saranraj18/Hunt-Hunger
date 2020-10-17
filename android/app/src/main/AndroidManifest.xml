@@ -7,8 +7,10 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="hackinutu"
+        android:label="Hunt Hunger"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyDQ7GVi3fuUX1MizDpcgwO_qgF1HW4EBMU"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

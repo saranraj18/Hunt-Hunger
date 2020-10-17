@@ -86,6 +86,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     style: sText,
                     cursorColor: pink,
+                    keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       fillColor: white,
                       hintText: 'Email Address',
@@ -176,8 +177,8 @@ class _SignUpState extends State<SignUp> {
                   child: TextFormField(
                     style: sText,
                     validator: (value) {
-                      if (value.isEmpty || value.length < 4) {
-                        return 'Username should be atleast 4 characters';
+                      if (value.length != 10) {
+                        return 'Mobile No should contain 10 digits';
                       }
                       return null;
                     },
@@ -202,8 +203,8 @@ class _SignUpState extends State<SignUp> {
                   child: TextFormField(
                     style: sText,
                     validator: (value) {
-                      if (value.isEmpty || value.length < 4) {
-                        return 'Username should be atleast 4 characters';
+                      if (value.isEmpty) {
+                        return 'Address should not be empty';
                       }
                       return null;
                     },
@@ -229,11 +230,12 @@ class _SignUpState extends State<SignUp> {
                   child: TextFormField(
                     style: sText,
                     validator: (value) {
-                      if (value.isEmpty || value.length < 4) {
-                        return 'Username should be atleast 4 characters';
+                      if (value.length != 6) {
+                        return 'Pincode should be 6 characters long';
                       }
                       return null;
                     },
+                    keyboardType: TextInputType.number,
                     cursorColor: white,
                     decoration: InputDecoration(
                       hintText: 'Pincode',
@@ -275,7 +277,8 @@ class _SignUpState extends State<SignUp> {
                                   .collection('LeaderBoard')
                                   .doc(auth.currentUser.uid)
                                   .set({
-                                'count': 1,
+                                'name': name,
+                                'count': 0,
                               });
                             });
                           });

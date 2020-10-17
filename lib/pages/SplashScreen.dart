@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hackinutu/pages/AuthScreen.dart';
+import 'package:hackinutu/pages/facts.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -10,13 +11,13 @@ class Splash extends StatefulWidget {
 class _SplashState extends State<Splash> {
   completed() {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Auth()));
+        context, MaterialPageRoute(builder: (context) => Fact()));
   }
 
   @override
   void initState() {
     super.initState();
-    Timer(Duration(milliseconds: 2500), completed);
+    Timer(Duration(milliseconds: 1500), completed);
   }
 
   @override

@@ -102,9 +102,7 @@ class _LBoardState extends State<LBoard> {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       Text(
-                                        (int.parse('${docum[index]['count']}') -
-                                                1)
-                                            .toString(),
+                                        docum[index]['count'].toString(),
                                         style: sText.copyWith(
                                             fontSize: 17,
                                             color: index <= 2
