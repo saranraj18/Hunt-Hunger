@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:hackinutu/pages/Donate.dart';
-import 'package:hackinutu/pages/RecentsDonate.dart';
-import 'package:hackinutu/pages/ReqDonate.dart';
+import 'package:hackinutu/pages/Request.dart';
+import 'package:hackinutu/pages/RequestPageDon.dart';
 import 'package:hackinutu/styles/color.dart';
 
-class Don extends StatefulWidget {
-  Don({
+class BefReq extends StatefulWidget {
+  BefReq({
     @required this.name,
     Key key,
   }) : super(key: key);
 
   final String name;
   @override
-  _DonState createState() => _DonState();
+  _BefReqState createState() => _BefReqState();
 }
 
-class _DonState extends State<Don> with SingleTickerProviderStateMixin {
+class _BefReqState extends State<BefReq> with SingleTickerProviderStateMixin {
   TabController _tabController;
 
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
 
@@ -42,17 +41,7 @@ class _DonState extends State<Don> with SingleTickerProviderStateMixin {
             Tab(
               child: Container(
                 padding: EdgeInsets.symmetric(
-                    vertical: height * 0.01, horizontal: width * 0.04),
-                decoration: BoxDecoration(
-                    color: lightIndigo,
-                    borderRadius: BorderRadius.circular(20)),
-                child: Text('Donate'),
-              ),
-            ),
-            Tab(
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                    vertical: height * 0.01, horizontal: width * 0.05),
+                    vertical: height * 0.01, horizontal: width * 0.1),
                 decoration: BoxDecoration(
                     color: lightIndigo,
                     borderRadius: BorderRadius.circular(20)),
@@ -62,11 +51,11 @@ class _DonState extends State<Don> with SingleTickerProviderStateMixin {
             Tab(
               child: Container(
                 padding: EdgeInsets.symmetric(
-                    vertical: height * 0.01, horizontal: width * 0.05),
+                    vertical: height * 0.01, horizontal: width * 0.1),
                 decoration: BoxDecoration(
                     color: lightIndigo,
                     borderRadius: BorderRadius.circular(20)),
-                child: Text('Recents'),
+                child: Text('Donations'),
               ),
             ),
           ],
@@ -77,9 +66,8 @@ class _DonState extends State<Don> with SingleTickerProviderStateMixin {
       ),
       body: TabBarView(
         children: [
-          Donate(),
-          ReqDon(),
-          RecentsDon(),
+          Req(),
+          ReqPageDon(),
         ],
         controller: _tabController,
       ),

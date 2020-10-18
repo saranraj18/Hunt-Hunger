@@ -8,13 +8,6 @@ import 'package:hackinutu/styles/text.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Accept extends StatefulWidget {
-  Accept({
-    @required this.name,
-    Key key,
-  }) : super(key: key);
-
-  final String name;
-
   @override
   _AcceptState createState() => _AcceptState();
 }
@@ -29,12 +22,6 @@ class _AcceptState extends State<Accept> {
 
     return Scaffold(
       backgroundColor: indigo,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: indigo,
-        automaticallyImplyLeading: false,
-        title: Text('Hello ${widget.name}'),
-      ),
       body: FutureBuilder(
         future: _firestore
             .collection('Food List')

@@ -21,6 +21,7 @@ dependencies:
   bubble_tab_indicator: ^0.1.4
   geolocator: ^6.0.0+4
   google_maps_flutter: ^0.5.30
+  autocomplete_textfield: ^1.7.3
 
 dev_dependencies:
   flutter_test:

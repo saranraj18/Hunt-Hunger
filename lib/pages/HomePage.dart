@@ -2,10 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:hackinutu/pages/Accept.dart';
+import 'package:hackinutu/pages/BefAccept.dart';
 import 'package:hackinutu/pages/BefDonate.dart';
+import 'package:hackinutu/pages/BefRequest.dart';
 import 'package:hackinutu/pages/Donate.dart';
 import 'package:hackinutu/pages/LeaderBoard.dart';
+import 'package:hackinutu/pages/Request.dart';
 import 'package:hackinutu/styles/color.dart';
 import 'package:hackinutu/styles/text.dart';
 import 'package:hackinutu/services/global.dart' as global;
@@ -74,6 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     userDetails();
     _validCheck();
+    currLoc();
     super.initState();
   }
 
@@ -123,8 +128,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   margin: EdgeInsets.only(
-                    bottom: height * 0.1,
-                    top: height * 0.1,
+                    bottom: height * 0.01,
+                    //top: height * 0.1,
                     right: width * 0.01,
                   ),
                   padding: EdgeInsets.symmetric(
@@ -151,10 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Accept(
-                        name: userName,
-                      ),
-                    ),
+                        builder: (context) => BefAcc(name: userName)),
                   );
                 },
                 child: Container(
@@ -165,8 +167,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   margin: EdgeInsets.only(
-                    bottom: height * 0.1,
-                    top: height * 0.1,
+                    bottom: height * 0.01,
+                    // top: height * 0.1,
                     left: width * 0.01,
                   ),
                   padding: EdgeInsets.symmetric(
@@ -187,6 +189,41 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ],
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => BefReq(name: userName)),
+              );
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: lightIndigo,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(30),
+                ),
+              ),
+              padding: EdgeInsets.symmetric(
+                  horizontal: width * 0.09, vertical: height * 0.08),
+              child: Column(
+                children: [
+                  FaIcon(
+                    FontAwesomeIcons.paperPlane,
+                    color: white,
+                    size: 70,
+                  ),
+                  Text(
+                    'REQUEST',
+                    style: sText.copyWith(fontSize: 25),
+                  ),
+                  Text(
+                    'FOOD',
+                    style: sText.copyWith(fontSize: 25),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
@@ -320,5 +357,16 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  Future currLoc() async {
+    if (await GeolocatorPlatform.instance.isLocationServiceEnabled()) {
+      await GeolocatorPlatform.instance
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+          .then((Position position) {
+        global.lat = position.latitude;
+        global.long = position.longitude;
+      });
+    }
   }
 }

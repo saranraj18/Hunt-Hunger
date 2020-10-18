@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hackinutu/pages/SignUp.dart';
+import 'package:hackinutu/pages/forgetPass.dart';
 import 'package:hackinutu/styles/Button.dart';
 import 'package:hackinutu/styles/color.dart';
 import 'package:hackinutu/styles/dialog.dart';
@@ -118,11 +119,19 @@ class _LoginState extends State<Login> {
                     obscureText: hidePass ? true : false,
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.all(height * 0.02),
-                  child: Text(
-                    'Forgot Password?',
-                    style: sText,
+                InkWell(
+                  child: Padding(
+                    padding: EdgeInsets.all(height * 0.02),
+                    child: Text(
+                      'Forgot Password?',
+                      style: sText,
+                    ),
+                  ),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ForgetPass(),
+                    ),
                   ),
                 ),
                 SizedBox(
